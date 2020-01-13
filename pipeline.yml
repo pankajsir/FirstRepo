@@ -1,0 +1,27 @@
+ - wait
+
+    - label: "Staging: Cypress End-to-End Test"
+      command: |
+          cd webapp/cypress
+          chmod +x ./build_staging.sh
+          ./build_staging.sh
+          cd ../../
+      branches: master
+      soft_fail: true
+      agents:
+          queue: build.linux
+
+    - wait
+
+    - label: "Staging: Selenium Test"
+      command: |
+          cd integrationtest
+          chmod +x ./build.sh
+          ./build.sh
+          cd ..
+      branches: master
+      soft_fail: true
+      agents:
+          queue: build.linux
+
+    - wait
